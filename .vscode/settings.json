@@ -1,3 +1,9 @@
 {
-  "cSpell.words": ["devs", "postgresql", "simplefinance", "simplefinancedb"]
+  "cSpell.words": [
+    "devs",
+    "postgresql",
+    "simplefinance",
+    "simplefinancedb",
+    "typname"
+  ]
 }

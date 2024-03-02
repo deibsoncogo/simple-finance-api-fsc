@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "prepare": "husky",
+    "migrations:run": "node src/db/postgres/migrations/exec.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
