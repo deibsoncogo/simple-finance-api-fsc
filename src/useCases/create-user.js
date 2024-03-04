@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt"
 import { v4 as uuidV4 } from "uuid"
+import { EmailAlreadyInUseError } from "../errors/user.js"
 import { CreateUserRepository } from "../repositories/create-user.js"
 import { GetUserByEmailRepository } from "../repositories/get-user-by-email.js"
 
@@ -12,7 +13,7 @@ export class CreateUserUseCase {
     )
 
     if (userWithProvidedEmail) {
-      throw new Error("The provided email is already in use")
+      throw new EmailAlreadyInUseError(createUserParams.email)
     }
 
     const userId = uuidV4()
