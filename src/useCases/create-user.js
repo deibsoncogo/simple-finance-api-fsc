@@ -1,9 +1,20 @@
 import bcrypt from "bcrypt"
 import { v4 as uuidV4 } from "uuid"
 import { CreateUserRepository } from "../repositories/create-user.js"
+import { GetUserByEmailRepository } from "../repositories/get-user-by-email.js"
 
 export class CreateUserUseCase {
   async execute(createUserParams) {
+    const getUserByEmailRepository = new GetUserByEmailRepository()
+
+    const userWithProvidedEmail = await getUserByEmailRepository.execute(
+      createUserParams.email,
+    )
+
+    if (userWithProvidedEmail) {
+      throw new Error("The provided email is already in use")
+    }
+
     const userId = uuidV4()
 
     const hashedPassword = await bcrypt.hash(createUserParams.password, 10)
