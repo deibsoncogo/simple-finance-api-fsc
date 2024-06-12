@@ -1,8 +1,10 @@
 import bcrypt from "bcrypt"
 import { v4 as uuidV4 } from "uuid"
 import { EmailAlreadyInUseError } from "../errors/user.js"
-import { CreateUserRepository } from "../repositories/create-user.js"
-import { GetUserByEmailRepository } from "../repositories/get-user-by-email.js"
+import {
+  CreateUserRepository,
+  GetUserByEmailRepository,
+} from "../repositories/index.js"
 
 export class CreateUserUseCase {
   async execute(createUserParams) {

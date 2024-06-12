@@ -1,4 +1,4 @@
-import { GetUserByIdRepository } from "../repositories/get-user-by-id.js"
+import { GetUserByIdRepository } from "../repositories/index.js"
 
 export class GetUserByIdUseCase {
   async execute(userId) {

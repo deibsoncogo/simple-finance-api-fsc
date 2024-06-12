@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt"
 import { EmailAlreadyInUseError } from "../errors/user.js"
-import { GetUserByEmailRepository } from "../repositories/get-user-by-email.js"
-import { UpdateUserRepository } from "../repositories/update-user.js"
+import {
+  GetUserByEmailRepository,
+  UpdateUserRepository,
+} from "../repositories/index.js"
 
 export class UpdateUserUseCase {
   async execute(userId, updateUserParams) {
