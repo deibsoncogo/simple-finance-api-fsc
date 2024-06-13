@@ -5,13 +5,32 @@ import {
   GetUserByIdController,
   UpdateUserController,
 } from "./src/controllers/index.js"
+import {
+  CreateUserRepository,
+  GetUserByEmailRepository,
+  GetUserByIdRepository,
+  UpdateUserRepository,
+} from "./src/repositories/index.js"
+import {
+  CreateUserUseCase,
+  GetUserByIdUseCase,
+  UpdateUserUseCase,
+} from "./src/useCases/index.js"
 
 const app = express()
 
 app.use(express.json())
 
 app.post("/api/users", async (request, response) => {
-  const createUserController = new CreateUserController()
+  const createUserRepository = new CreateUserRepository()
+  const getUserByEmailRepository = new GetUserByEmailRepository()
+
+  const createUserUseCase = new CreateUserUseCase(
+    getUserByEmailRepository,
+    createUserRepository,
+  )
+
+  const createUserController = new CreateUserController(createUserUseCase)
 
   const { statusCode, body } = await createUserController.handle(request)
 
@@ -19,7 +38,15 @@ app.post("/api/users", async (request, response) => {
 })
 
 app.patch("/api/users/:userId", async (request, response) => {
-  const updateUserController = new UpdateUserController()
+  const updateUserRepository = new UpdateUserRepository()
+  const getUserByEmailRepository = new GetUserByEmailRepository()
+
+  const updateUserUseCase = new UpdateUserUseCase(
+    getUserByEmailRepository,
+    updateUserRepository,
+  )
+
+  const updateUserController = new UpdateUserController(updateUserUseCase)
 
   const { statusCode, body } = await updateUserController.handle(request)
 
@@ -27,7 +54,9 @@ app.patch("/api/users/:userId", async (request, response) => {
 })
 
 app.get("/api/users/:userId", async (request, response) => {
-  const getUserByIdController = new GetUserByIdController()
+  const getUserByIdRepository = new GetUserByIdRepository()
+  const getUserByIdUseCase = new GetUserByIdUseCase(getUserByIdRepository)
+  const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
 
   const { statusCode, body } = await getUserByIdController.handle(request)
 
