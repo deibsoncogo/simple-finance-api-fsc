@@ -2,17 +2,20 @@ import "dotenv/config.js"
 import express from "express"
 import {
   CreateUserController,
+  DeleteUserController,
   GetUserByIdController,
   UpdateUserController,
 } from "./src/controllers/index.js"
 import {
   CreateUserRepository,
+  DeleteUserRepository,
   GetUserByEmailRepository,
   GetUserByIdRepository,
   UpdateUserRepository,
 } from "./src/repositories/index.js"
 import {
   CreateUserUseCase,
+  DeleteUserUseCase,
   GetUserByIdUseCase,
   UpdateUserUseCase,
 } from "./src/useCases/index.js"
@@ -59,6 +62,16 @@ app.get("/api/users/:userId", async (request, response) => {
   const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
 
   const { statusCode, body } = await getUserByIdController.handle(request)
+
+  response.status(statusCode).send(body)
+})
+
+app.delete("/api/users/:userId", async (request, response) => {
+  const deleteUserRepository = new DeleteUserRepository()
+  const deleteUserUseCase = new DeleteUserUseCase(deleteUserRepository)
+  const deleteUserController = new DeleteUserController(deleteUserUseCase)
+
+  const { statusCode, body } = await deleteUserController.handle(request)
 
   response.status(statusCode).send(body)
 })
