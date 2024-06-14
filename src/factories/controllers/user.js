@@ -10,7 +10,7 @@ import {
   GetUserByEmailRepository,
   GetUserByIdRepository,
   UpdateUserRepository,
-} from "../../repositories/index.js"
+} from "../../repositories/user/index.js"
 import {
   CreateUserUseCase,
   DeleteUserUseCase,
