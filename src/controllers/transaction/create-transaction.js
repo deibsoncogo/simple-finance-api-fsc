@@ -1,10 +1,14 @@
-import validator from "validator"
 import {
   badRequest,
+  checkIfAmountIsValid,
   checkIfIdIsValid,
+  checkIfTypeIsValid,
   created,
   invalidIdResponse,
+  invalidTypeResponse,
+  requiredFieldIsMissingResponse,
   serverError,
+  validateRequiredFields,
 } from "../helpers/index.js"
 
 export class CreateTransactionController {
@@ -18,10 +22,11 @@ export class CreateTransactionController {
 
       const requiredFields = ["user_id", "name", "date", "amount", "type"]
 
-      for (const field of requiredFields) {
-        if (!params[field] || params[field].toString().trim().length === 0) {
-          return badRequest({ message: `Missing param: ${field}` })
-        }
+      const { ok: requiredFieldsWereProvided, missingField } =
+        validateRequiredFields(params, requiredFields)
+
+      if (!requiredFieldsWereProvided) {
+        return requiredFieldIsMissingResponse(missingField)
       }
 
       const userIdIsValid = checkIfIdIsValid(params.user_id)
@@ -30,15 +35,7 @@ export class CreateTransactionController {
         return invalidIdResponse()
       }
 
-      if (params.amount <= 0) {
-        return badRequest({ message: "The amount must be greater than 0" })
-      }
-
-      const amountIsValid = validator.isCurrency(params.amount.toString(), {
-        digits_after_decimal: [2],
-        allow_decimal: false,
-        decimal_separator: ".",
-      })
+      const amountIsValid = checkIfAmountIsValid(params.amount)
 
       if (!amountIsValid) {
         return badRequest({ message: "The amount must be a valid currency" })
@@ -46,12 +43,10 @@ export class CreateTransactionController {
 
       const type = params.type.trim().toUpperCase()
 
-      const typeIsValid = ["EARNING", "EXPENSE", "INVESTMENT"].includes(type)
+      const typeIsValid = checkIfTypeIsValid(type)
 
       if (!typeIsValid) {
-        return badRequest({
-          message: "The type must be EARNING, EXPENSE or INVESTMENT",
-        })
+        return invalidTypeResponse()
       }
 
       const transaction = await this.createTransactionUseCase.execute({
