@@ -1,6 +1,8 @@
 import { CreateTransactionController } from "../../controllers/index.js"
-import { CreateTransactionRepository } from "../../repositories/transaction/create-transaction.js"
-import { GetUserByIdRepository } from "../../repositories/user/get-user-by-id.js"
+import {
+  CreateTransactionRepository,
+  GetUserByIdRepository,
+} from "../../repositories/index.js"
 import { CreateTransactionUseCase } from "../../useCases/index.js"
 
 export const makeCreateTransactionController = () => {
