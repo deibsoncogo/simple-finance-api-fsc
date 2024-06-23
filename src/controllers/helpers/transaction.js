@@ -18,7 +18,7 @@ export const checkIfTypeIsValid = (type) => {
 }
 
 export const invalidAmountResponse = () => {
-  return badRequest({ message: "The amount" })
+  return badRequest({ message: "The amount must be a valid currency" })
 }
 
 export const invalidTypeResponse = () => {

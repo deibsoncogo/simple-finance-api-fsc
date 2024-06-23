@@ -1,15 +1,18 @@
 import {
   CreateTransactionController,
   GetTransactionsByUserIdController,
+  UpdateTransactionController,
 } from "../../controllers/index.js"
 import {
   CreateTransactionRepository,
   GetTransactionsByUserIdRepository,
   GetUserByIdRepository,
+  UpdateTransactionRepository,
 } from "../../repositories/index.js"
 import {
   CreateTransactionUseCase,
   GetTransactionsByUserIdUseCase,
+  UpdateTransactionUseCase,
 } from "../../useCases/index.js"
 
 export const makeCreateTransactionController = () => {
@@ -44,4 +47,18 @@ export const makeGetTransactionsByUserIdController = () => {
     new GetTransactionsByUserIdController(getTransactionsByUserIdUseCase)
 
   return getTransactionsByUserIdController
+}
+
+export const makeUpdateTransactionController = () => {
+  const updateTransactionRepository = new UpdateTransactionRepository()
+
+  const updateTransactionUseCase = new UpdateTransactionUseCase(
+    updateTransactionRepository,
+  )
+
+  const updateTransactionController = new UpdateTransactionController(
+    updateTransactionUseCase,
+  )
+
+  return updateTransactionController
 }

@@ -1,9 +1,9 @@
 import {
-  badRequest,
   checkIfAmountIsValid,
   checkIfIdIsValid,
   checkIfTypeIsValid,
   created,
+  invalidAmountResponse,
   invalidIdResponse,
   invalidTypeResponse,
   requiredFieldIsMissingResponse,
@@ -38,7 +38,7 @@ export class CreateTransactionController {
       const amountIsValid = checkIfAmountIsValid(params.amount)
 
       if (!amountIsValid) {
-        return badRequest({ message: "The amount must be a valid currency" })
+        return invalidAmountResponse()
       }
 
       const type = params.type.trim().toUpperCase()
