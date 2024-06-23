@@ -24,18 +24,18 @@ app.post("/api/users", async (request, response) => {
   response.status(statusCode).send(body)
 })
 
-app.patch("/api/users/:userId", async (request, response) => {
-  const updateUserController = makeUpdateUserController()
-
-  const { statusCode, body } = await updateUserController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
 app.get("/api/users/:userId", async (request, response) => {
   const getUserByIdController = makeGetUserByIdController()
 
   const { statusCode, body } = await getUserByIdController.handle(request)
+
+  response.status(statusCode).send(body)
+})
+
+app.patch("/api/users/:userId", async (request, response) => {
+  const updateUserController = makeUpdateUserController()
+
+  const { statusCode, body } = await updateUserController.handle(request)
 
   response.status(statusCode).send(body)
 })

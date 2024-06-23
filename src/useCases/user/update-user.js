@@ -8,8 +8,6 @@ export class UpdateUserUseCase {
   }
 
   async execute(userId, updateUserParams) {
-    const user = { ...updateUserParams }
-
     if (updateUserParams.email) {
       const userWithProvidedEmail = await this.getUserByEmailRepository.execute(
         updateUserParams.email,
@@ -19,6 +17,8 @@ export class UpdateUserUseCase {
         throw new EmailAlreadyInUseError(updateUserParams.email)
       }
     }
+
+    const user = { ...updateUserParams }
 
     if (updateUserParams.password) {
       const hashedPassword = await bcrypt.hash(updateUserParams.password, 10)

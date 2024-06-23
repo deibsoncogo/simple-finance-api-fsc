@@ -19,11 +19,11 @@ export class UpdateTransactionRepository {
       RETURNING *
     `
 
-    const updatedTransaction = await postgresHelper.query(
+    const updateTransaction = await postgresHelper.query(
       updateQuery,
       updateValues,
     )
 
-    return updatedTransaction[0]
+    return updateTransaction[0]
   }
 }

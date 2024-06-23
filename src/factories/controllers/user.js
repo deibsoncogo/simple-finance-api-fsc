@@ -20,6 +20,7 @@ import {
 
 export const makeCreateUserController = () => {
   const createUserRepository = new CreateUserRepository()
+
   const getUserByEmailRepository = new GetUserByEmailRepository()
 
   const createUserUseCase = new CreateUserUseCase(
@@ -32,8 +33,19 @@ export const makeCreateUserController = () => {
   return createUserController
 }
 
+export const makeGetUserByIdController = () => {
+  const getUserByIdRepository = new GetUserByIdRepository()
+
+  const getUserByIdUseCase = new GetUserByIdUseCase(getUserByIdRepository)
+
+  const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
+
+  return getUserByIdController
+}
+
 export const makeUpdateUserController = () => {
   const updateUserRepository = new UpdateUserRepository()
+
   const getUserByEmailRepository = new GetUserByEmailRepository()
 
   const updateUserUseCase = new UpdateUserUseCase(
@@ -46,17 +58,11 @@ export const makeUpdateUserController = () => {
   return updateUserController
 }
 
-export const makeGetUserByIdController = () => {
-  const getUserByIdRepository = new GetUserByIdRepository()
-  const getUserByIdUseCase = new GetUserByIdUseCase(getUserByIdRepository)
-  const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
-
-  return getUserByIdController
-}
-
 export const makeDeleteUserController = () => {
   const deleteUserRepository = new DeleteUserRepository()
+
   const deleteUserUseCase = new DeleteUserUseCase(deleteUserRepository)
+
   const deleteUserController = new DeleteUserController(deleteUserUseCase)
 
   return deleteUserController

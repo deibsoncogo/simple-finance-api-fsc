@@ -27,8 +27,8 @@ export class CreateUserUseCase {
       password: hashedPassword,
     }
 
-    const createdUser = await this.createUserRepository.execute(user)
+    const createUser = await this.createUserRepository.execute(user)
 
-    return createdUser
+    return createUser
   }
 }
