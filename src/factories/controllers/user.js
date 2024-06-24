@@ -1,12 +1,14 @@
 import {
   CreateUserController,
   DeleteUserController,
+  GetUserBalanceController,
   GetUserByIdController,
   UpdateUserController,
 } from "../../controllers/index.js"
 import {
   CreateUserRepository,
   DeleteUserRepository,
+  GetUserBalanceRepository,
   GetUserByEmailRepository,
   GetUserByIdRepository,
   UpdateUserRepository,
@@ -14,6 +16,7 @@ import {
 import {
   CreateUserUseCase,
   DeleteUserUseCase,
+  GetUserBalanceUseCase,
   GetUserByIdUseCase,
   UpdateUserUseCase,
 } from "../../useCases/index.js"
@@ -41,6 +44,23 @@ export const makeGetUserByIdController = () => {
   const getUserByIdController = new GetUserByIdController(getUserByIdUseCase)
 
   return getUserByIdController
+}
+
+export const makeGetUserBalanceController = () => {
+  const getUserBalanceRepository = new GetUserBalanceRepository()
+
+  const getUserByIdRepository = new GetUserByIdRepository()
+
+  const getUserBalanceUseCase = new GetUserBalanceUseCase(
+    getUserByIdRepository,
+    getUserBalanceRepository,
+  )
+
+  const getUserBalanceController = new GetUserBalanceController(
+    getUserBalanceUseCase,
+  )
+
+  return getUserBalanceController
 }
 
 export const makeUpdateUserController = () => {
