@@ -1,12 +1,11 @@
-import { postgresHelper } from "../../db/postgres/helper.js"
+import { prisma } from "../../../prisma/prisma.js"
 
 export class GetUserByIdRepository {
   async execute(userId) {
-    const user = await postgresHelper.query(
-      "SELECT * FROM users WHERE id = $1",
-      [userId],
-    )
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    })
 
-    return user[0]
+    return user
   }
 }
