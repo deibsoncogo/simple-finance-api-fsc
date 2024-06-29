@@ -1,10 +1,10 @@
 import { prisma } from "../../../prisma/prisma.js"
 
 export class DeleteUserRepository {
-  async execute(userId) {
+  async execute(id) {
     try {
-      const user = await prisma.user.delete({
-        where: { id: userId },
+      const user = await prisma.users.delete({
+        where: { id },
       })
 
       return user

@@ -1,10 +1,10 @@
 import { prisma } from "../../../prisma/prisma.js"
 
 export class UpdateUserRepository {
-  async execute(userId, updateUserParams) {
-    const user = await prisma.user.update({
-      where: { id: userId },
-      data: updateUserParams,
+  async execute(id, data) {
+    const user = await prisma.users.update({
+      where: { id },
+      data,
     })
 
     return user

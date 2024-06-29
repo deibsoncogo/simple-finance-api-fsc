@@ -5,22 +5,22 @@ export class GetUserBalanceRepository {
   async execute(userId) {
     const {
       _sum: { amount: totalExpenses },
-    } = await prisma.transaction.aggregate({
-      where: { user_id: userId, type: "EXPENSE" },
+    } = await prisma.transactions.aggregate({
+      where: { userId, type: "expense" },
       _sum: { amount: true },
     })
 
     const {
       _sum: { amount: totalEarnings },
-    } = await prisma.transaction.aggregate({
-      where: { user_id: userId, type: "EARNING" },
+    } = await prisma.transactions.aggregate({
+      where: { userId, type: "earning" },
       _sum: { amount: true },
     })
 
     const {
       _sum: { amount: totalInvestments },
-    } = await prisma.transaction.aggregate({
-      where: { user_id: userId, type: "INVESTMENT" },
+    } = await prisma.transactions.aggregate({
+      where: { userId, type: "investment" },
       _sum: { amount: true },
     })
 

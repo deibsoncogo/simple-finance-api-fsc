@@ -2,8 +2,8 @@ import { prisma } from "../../../prisma/prisma.js"
 
 export class GetTransactionsByUserIdRepository {
   async execute(userId) {
-    const transactions = await prisma.transaction.findMany({
-      where: { user_id: userId },
+    const transactions = await prisma.transactions.findMany({
+      where: { userId },
     })
 
     return transactions
