@@ -21,7 +21,7 @@ model Transaction {
   id      String          @id @default(uuid())
   name    String          @db.VarChar(50)
   date    DateTime
-  amount  Decimal         @unique @db.Decimal(10, 2)
+  amount  Decimal         @db.Decimal(10, 2)
   type    TransactionType
   user_id String
 
