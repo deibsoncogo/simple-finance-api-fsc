@@ -2,7 +2,7 @@ import validator from "validator"
 import { z } from "zod"
 
 export const createTransactionSchema = z.object({
-  user_id: z
+  userId: z
     .string({ required_error: "ID is required" })
     .uuid({ message: "User ID must be a valid UUID" }),
   name: z
@@ -12,7 +12,7 @@ export const createTransactionSchema = z.object({
   date: z
     .string({ required_error: "ID is required" })
     .datetime({ message: "Date must be a valid date" }),
-  type: z.enum(["EXPENSE", "EARNING", "INVESTMENT"], {
+  type: z.enum(["expense", "earning", "investment"], {
     errorMap: () => ({
       message: "Type must be EXPENSE, EARNING or INVESTMENT",
     }),
