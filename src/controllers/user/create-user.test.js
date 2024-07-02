@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker"
 import { CreateUserController } from "./create-user"
+import { EmailAlreadyInUseError } from "../../errors/user"
 
 describe("Create user controller", () => {
   class CreateUserUseCaseStub {
@@ -150,5 +151,49 @@ describe("Create user controller", () => {
     await createUserController.handle(httpRequest)
 
     expect(executeSpy).toHaveBeenCalledWith(httpRequest.body)
+  })
+
+  test("Should return 500 if CreateUserUseCase throws", async () => {
+    const createUserUseCaseStub = new CreateUserUseCaseStub()
+    const createUserController = new CreateUserController(createUserUseCaseStub)
+
+    const httpRequest = {
+      body: {
+        firstName: faker.person.lastName(),
+        lastName: faker.person.firstName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({ length: 7 }),
+      },
+    }
+
+    jest.spyOn(createUserUseCaseStub, "execute").mockImplementationOnce(() => {
+      throw new Error()
+    })
+
+    const result = await createUserController.handle(httpRequest)
+
+    expect(result.statusCode).toBe(500)
+  })
+
+  test("Should return 500 if CreateUserUseCase throws emailAlreadyInUseError", async () => {
+    const createUserUseCaseStub = new CreateUserUseCaseStub()
+    const createUserController = new CreateUserController(createUserUseCaseStub)
+
+    const httpRequest = {
+      body: {
+        firstName: faker.person.lastName(),
+        lastName: faker.person.firstName(),
+        email: faker.internet.email(),
+        password: faker.internet.password({ length: 7 }),
+      },
+    }
+
+    jest.spyOn(createUserUseCaseStub, "execute").mockImplementationOnce(() => {
+      throw new EmailAlreadyInUseError(httpRequest.body.email)
+    })
+
+    const result = await createUserController.handle(httpRequest)
+
+    expect(result.statusCode).toBe(400)
   })
 })
