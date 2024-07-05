@@ -4,7 +4,7 @@ import { CreateUserController } from "./create-user.js"
 
 describe("Create user controller", () => {
   class CreateUserUseCaseStub {
-    execute(user) {
+    async execute(user) {
       return user
     }
   }
@@ -110,9 +110,9 @@ describe("Create user controller", () => {
   test("Should return 500 if CreateUserUseCase throws", async () => {
     const { createUserController, createUserUseCaseStub } = makeSut()
 
-    jest.spyOn(createUserUseCaseStub, "execute").mockImplementationOnce(() => {
-      throw new Error()
-    })
+    jest
+      .spyOn(createUserUseCaseStub, "execute")
+      .mockRejectedValueOnce(new Error())
 
     const result = await createUserController.handle(httpRequest)
 
@@ -122,9 +122,9 @@ describe("Create user controller", () => {
   test("Should return 500 if CreateUserUseCase throws emailAlreadyInUseError", async () => {
     const { createUserController, createUserUseCaseStub } = makeSut()
 
-    jest.spyOn(createUserUseCaseStub, "execute").mockImplementationOnce(() => {
-      throw new EmailAlreadyInUseError(httpRequest.body.email)
-    })
+    jest
+      .spyOn(createUserUseCaseStub, "execute")
+      .mockRejectedValueOnce(new EmailAlreadyInUseError(httpRequest.body.email))
 
     const result = await createUserController.handle(httpRequest)
 
