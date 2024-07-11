@@ -55,7 +55,7 @@ describe("Delete user controller", () => {
     expect(result.statusCode).toBe(404)
   })
 
-  test("Should return 500 if DeleteUserUseCase throws", async () => {
+  test("Should return 500 if deleteUserUseCaseStub throws", async () => {
     const { deleteUserUseCaseStub, deleteUserController } = makeSut()
 
     jest
@@ -65,5 +65,15 @@ describe("Delete user controller", () => {
     const result = await deleteUserController.handle(httpRequest)
 
     expect(result.statusCode).toBe(500)
+  })
+
+  test("Should call deleteUserUseCaseStub with correct params", async () => {
+    const { deleteUserUseCaseStub, deleteUserController } = makeSut()
+
+    const executeSpy = jest.spyOn(deleteUserUseCaseStub, "execute")
+
+    await deleteUserController.handle(httpRequest)
+
+    expect(executeSpy).toHaveBeenCalledWith(httpRequest.params.userId)
   })
 })

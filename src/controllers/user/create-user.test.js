@@ -97,7 +97,7 @@ describe("Create user controller", () => {
     expect(result.statusCode).toBe(400)
   })
 
-  test("Should call CreateUserUseCase with correct params", async () => {
+  test("Should call createUserUseCaseStub with correct params", async () => {
     const { createUserController, createUserUseCaseStub } = makeSut()
 
     const executeSpy = jest.spyOn(createUserUseCaseStub, "execute")
@@ -107,7 +107,7 @@ describe("Create user controller", () => {
     expect(executeSpy).toHaveBeenCalledWith(httpRequest.body)
   })
 
-  test("Should return 500 if CreateUserUseCase throws", async () => {
+  test("Should return 500 if createUserUseCaseStub throws", async () => {
     const { createUserController, createUserUseCaseStub } = makeSut()
 
     jest
@@ -119,7 +119,7 @@ describe("Create user controller", () => {
     expect(result.statusCode).toBe(500)
   })
 
-  test("Should return 500 if CreateUserUseCase throws emailAlreadyInUseError", async () => {
+  test("Should return 500 if createUserUseCaseStub throws emailAlreadyInUseError", async () => {
     const { createUserController, createUserUseCaseStub } = makeSut()
 
     jest
