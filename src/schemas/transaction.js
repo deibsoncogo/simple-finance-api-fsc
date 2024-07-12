@@ -33,7 +33,6 @@ export const createTransactionSchema = z.object({
 })
 
 export const updateTransactionSchema = createTransactionSchema
+  .omit({ id: true })
   .partial()
-  .strict({
-    message: "Some provided field is not allowed",
-  })
+  .strict({ message: "Some provided field is not allowed" })
