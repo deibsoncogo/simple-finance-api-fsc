@@ -1,12 +1,13 @@
-import { v4 as uuidV4 } from "uuid"
 import { EmailAlreadyInUseError } from "../../errors/user.js"
 
 export class CreateUserUseCase {
   constructor(
+    idGeneratorAdapter,
     passwordHashAdapter,
     getUserByEmailRepository,
     createUserRepository,
   ) {
+    this.idGeneratorAdapter = idGeneratorAdapter
     this.passwordHashAdapter = passwordHashAdapter
     this.getUserByEmailRepository = getUserByEmailRepository
     this.createUserRepository = createUserRepository
@@ -21,7 +22,7 @@ export class CreateUserUseCase {
       throw new EmailAlreadyInUseError(createUserParams.email)
     }
 
-    const userId = uuidV4()
+    const userId = this.idGeneratorAdapter.execute()
 
     const hashedPassword = await this.passwordHashAdapter.execute(
       createUserParams.password,
