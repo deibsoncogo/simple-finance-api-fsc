@@ -52,6 +52,16 @@ describe("Get transaction by user id controller", () => {
     expect(result.statusCode).toBe(400)
   })
 
+  test("Should return 400 when userId param is invalid", async () => {
+    const { getTransactionsByUserIdController } = makeSut()
+
+    const response = await getTransactionsByUserIdController.handle({
+      query: { userId: "invalid_user_id" },
+    })
+
+    expect(response.statusCode).toBe(400)
+  })
+
   test("Should return 404 when user is not found", async () => {
     const {
       getTransactionsByUserIdUseCaseStub,

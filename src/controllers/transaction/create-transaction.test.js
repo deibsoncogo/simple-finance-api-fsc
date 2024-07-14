@@ -69,6 +69,16 @@ describe("Create transaction controller", () => {
     const { createTransactionController } = makeSut()
 
     const result = await createTransactionController.handle({
+      body: { ...httpRequest.body, name: undefined },
+    })
+
+    expect(result.statusCode).toBe(400)
+  })
+
+  test("Should return 400 when missing date", async () => {
+    const { createTransactionController } = makeSut()
+
+    const result = await createTransactionController.handle({
       body: { ...httpRequest.body, date: undefined },
     })
 
@@ -93,6 +103,16 @@ describe("Create transaction controller", () => {
     })
 
     expect(result.statusCode).toBe(400)
+  })
+
+  test("Should return 400 when date is invalid", async () => {
+    const { createTransactionController } = makeSut()
+
+    const response = await createTransactionController.handle({
+      body: { ...httpRequest.body, date: "invalid_date" },
+    })
+
+    expect(response.statusCode).toBe(400)
   })
 
   test("Should return 400 when type is not EXPENSE, EARNING or INVESTMENT", async () => {
