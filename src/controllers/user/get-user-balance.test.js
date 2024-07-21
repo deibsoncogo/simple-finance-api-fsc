@@ -1,8 +1,13 @@
 import { faker } from "@faker-js/faker"
-import { GetUserBalanceController } from "./get-user-balance.js"
 import { UserNotFoundError } from "../../errors/user.js"
+import { user } from "../../tests/index.js"
+import { GetUserBalanceController } from "./get-user-balance.js"
 
 describe("Get user balance controller", () => {
+  const httpRequest = {
+    params: { userId: user.id },
+  }
+
   class GetUserBalanceUseCaseStub {
     async execute(userId) {
       console.log(userId)
@@ -19,8 +24,6 @@ describe("Get user balance controller", () => {
 
     return { getUserBalanceUseCaseStub, getUserBalanceController }
   }
-
-  const httpRequest = { params: { userId: faker.string.uuid() } }
 
   test("Should return 200 when getting user balance", async () => {
     const { getUserBalanceController } = makeSut()

@@ -1,15 +1,16 @@
-import { faker } from "@faker-js/faker"
+import { user } from "../../tests/index.js"
 import { GetUserByIdController } from "./get-user-by-id.js"
 
 describe("Get user by id controller", () => {
+  const httpRequest = {
+    params: { userId: user.id },
+  }
+
   class GetUserByIdUseCaseStub {
     async execute(userId) {
       return {
+        ...user,
         id: userId,
-        firstName: faker.person.firstName(),
-        lastName: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({ length: 7 }),
       }
     }
   }
@@ -23,8 +24,6 @@ describe("Get user by id controller", () => {
 
     return { getUserByIdUseCaseStub, getUserByIdController }
   }
-
-  const httpRequest = { params: { userId: faker.string.uuid() } }
 
   test("Should return 200 if a user is found", async () => {
     const { getUserByIdController } = makeSut()

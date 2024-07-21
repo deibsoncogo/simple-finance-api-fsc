@@ -1,8 +1,14 @@
 import { faker } from "@faker-js/faker"
-import { UpdateUserController } from "./update-user.js"
 import { EmailAlreadyInUseError } from "../../errors/user.js"
+import { user, userPartial } from "../../tests/index.js"
+import { UpdateUserController } from "./update-user.js"
 
 describe("Update user controller", () => {
+  const httpRequest = {
+    params: { userId: user.id },
+    body: userPartial,
+  }
+
   class UpdateUserUseCaseStub {
     async execute(user) {
       return user
@@ -14,18 +20,6 @@ describe("Update user controller", () => {
     const updateUserController = new UpdateUserController(updateUserUseCaseStub)
 
     return { updateUserUseCaseStub, updateUserController }
-  }
-
-  const httpRequest = {
-    params: {
-      userId: faker.string.uuid(),
-    },
-    body: {
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      email: faker.internet.email(),
-      password: faker.internet.password({ length: 7 }),
-    },
   }
 
   test("Should return 200 when updating a user successfully", async () => {

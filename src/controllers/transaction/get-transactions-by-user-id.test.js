@@ -1,17 +1,17 @@
-import { faker } from "@faker-js/faker"
+import { transaction } from "../../tests/index.js"
 import { GetTransactionsByUserIdController } from "./get-transactions-by-user-id.js"
 import { UserNotFoundError } from "../../errors/user.js"
 
 describe("Get transaction by user id controller", () => {
+  const httpRequest = {
+    query: { userId: transaction.userId },
+  }
+
   class GetTransactionsByUserIdUseCaseStub {
     async execute(transactionId) {
       return {
+        ...transaction,
         id: transactionId,
-        userId: faker.string.uuid(),
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        type: "expense",
-        amount: Number(faker.finance.amount()),
       }
     }
   }
@@ -19,6 +19,7 @@ describe("Get transaction by user id controller", () => {
   const makeSut = () => {
     const getTransactionsByUserIdUseCaseStub =
       new GetTransactionsByUserIdUseCaseStub()
+
     const getTransactionsByUserIdController =
       new GetTransactionsByUserIdController(getTransactionsByUserIdUseCaseStub)
 
@@ -26,12 +27,6 @@ describe("Get transaction by user id controller", () => {
       getTransactionsByUserIdUseCaseStub,
       getTransactionsByUserIdController,
     }
-  }
-
-  const httpRequest = {
-    query: {
-      userId: faker.string.uuid(),
-    },
   }
 
   test("Should return 200 when finding transaction by user id successfully", async () => {

@@ -1,7 +1,11 @@
-import { faker } from "@faker-js/faker"
+import { transactionPartial } from "../../tests/index.js"
 import { CreateTransactionController } from "./create-transaction.js"
 
 describe("Create transaction controller", () => {
+  const httpRequest = {
+    body: transactionPartial,
+  }
+
   class CreateTransactionUseCaseStub {
     async execute(transaction) {
       return transaction
@@ -15,16 +19,6 @@ describe("Create transaction controller", () => {
     )
 
     return { createTransactionUseCaseStub, createTransactionController }
-  }
-
-  const httpRequest = {
-    body: {
-      userId: faker.string.uuid(),
-      name: faker.commerce.productName(),
-      date: faker.date.anytime().toISOString(),
-      type: "expense",
-      amount: Number(faker.finance.amount()),
-    },
   }
 
   test("Should return 201 when creating a transaction successfully (expense)", async () => {

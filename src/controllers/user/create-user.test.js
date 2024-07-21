@@ -1,8 +1,13 @@
 import { faker } from "@faker-js/faker"
 import { EmailAlreadyInUseError } from "../../errors/user.js"
+import { userPartial } from "../../tests/index.js"
 import { CreateUserController } from "./create-user.js"
 
 describe("Create user controller", () => {
+  const httpRequest = {
+    body: userPartial,
+  }
+
   class CreateUserUseCaseStub {
     async execute(user) {
       return user
@@ -14,15 +19,6 @@ describe("Create user controller", () => {
     const createUserController = new CreateUserController(createUserUseCaseStub)
 
     return { createUserUseCaseStub, createUserController }
-  }
-
-  const httpRequest = {
-    body: {
-      firstName: faker.person.firstName(),
-      lastName: faker.person.lastName(),
-      email: faker.internet.email(),
-      password: faker.internet.password({ length: 7 }),
-    },
   }
 
   test("Should return 201 when creating a user successfully", async () => {

@@ -1,16 +1,17 @@
-import { faker } from "@faker-js/faker"
+import { transactionPartial, transaction } from "../../tests/index.js"
 import { UpdateTransactionController } from "./update-transaction.js"
 
 describe("Update transaction controller", () => {
+  const httpRequest = {
+    params: { transactionId: transaction.id },
+    body: transactionPartial,
+  }
+
   class UpdateTransactionUseCaseStub {
     async execute(transactionId) {
       return {
+        ...transaction,
         id: transactionId,
-        userId: faker.string.uuid(),
-        name: faker.commerce.productName(),
-        date: faker.date.anytime().toISOString(),
-        type: "expense",
-        amount: Number(faker.finance.amount()),
       }
     }
   }
@@ -22,18 +23,6 @@ describe("Update transaction controller", () => {
     )
 
     return { updateTransactionUseCaseStub, updateTransactionController }
-  }
-
-  const httpRequest = {
-    params: {
-      transactionId: faker.string.uuid(),
-    },
-    body: {
-      name: faker.commerce.productName(),
-      date: faker.date.anytime().toISOString(),
-      type: "expense",
-      amount: Number(faker.finance.amount()),
-    },
   }
 
   test("Should return 200 when updating a transaction successfully", async () => {

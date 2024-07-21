@@ -1,16 +1,14 @@
-import { faker } from "@faker-js/faker"
+import { user } from "../../tests/index.js"
 import { DeleteUserController } from "./delete-user.js"
 
 describe("Delete user controller", () => {
+  const httpRequest = {
+    params: { userId: user.id },
+  }
+
   class DeleteUserUseCaseStub {
     async execute(userId) {
-      return {
-        id: userId,
-        firstName: faker.person.firstName(),
-        lastName: faker.person.lastName(),
-        email: faker.internet.email(),
-        password: faker.internet.password({ length: 7 }),
-      }
+      return { ...user, id: userId }
     }
   }
 
@@ -19,12 +17,6 @@ describe("Delete user controller", () => {
     const deleteUserController = new DeleteUserController(deleteUserUseCaseStub)
 
     return { deleteUserUseCaseStub, deleteUserController }
-  }
-
-  const httpRequest = {
-    params: {
-      userId: faker.string.uuid(),
-    },
   }
 
   test("Should return 200 if user is deleted", async () => {

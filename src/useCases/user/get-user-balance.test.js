@@ -1,23 +1,8 @@
-import { faker } from "@faker-js/faker"
-import { GetUserBalanceUseCase } from "./get-user-balance.js"
 import { UserNotFoundError } from "../../errors/user.js"
+import { balance, user } from "../../tests/index.js"
+import { GetUserBalanceUseCase } from "./get-user-balance.js"
 
 describe("Get user balance use case", () => {
-  const user = {
-    id: faker.string.uuid(),
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password({ length: 7 }),
-  }
-
-  const balance = {
-    earnings: faker.finance.amount(),
-    expenses: faker.finance.amount(),
-    investments: faker.finance.amount(),
-    balance: faker.finance.amount(),
-  }
-
   class GetUserBalanceRepositoryStub {
     async execute() {
       return balance

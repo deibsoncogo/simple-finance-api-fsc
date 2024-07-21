@@ -1,6 +1,6 @@
-import { faker } from "@faker-js/faker"
-import { CreateUserUseCase } from "./create-user"
 import { EmailAlreadyInUseError } from "../../errors/user"
+import { userPartial as user } from "../../tests/index.js"
+import { CreateUserUseCase } from "./create-user"
 
 describe("Create user use case", () => {
   class CreateUserRepositoryStub {
@@ -47,13 +47,6 @@ describe("Create user use case", () => {
       createUserRepositoryStub,
       createUserUseCase,
     }
-  }
-
-  const user = {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password({ length: 7 }),
   }
 
   test("Should successfully create a user", async () => {
