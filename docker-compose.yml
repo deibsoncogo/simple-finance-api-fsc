@@ -12,3 +12,13 @@ services:
       - "5432:5432"
     volumes:
       - ./.postgres:/var/lib/postgresql/data
+
+  postgres-test:
+    image: postgres
+    container_name: simple-finance-test
+    environment:
+      POSTGRES_USER: simplefinance
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: simplefinancedb
+    ports:
+      - "5433:5432"

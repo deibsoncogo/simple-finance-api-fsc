@@ -7,15 +7,16 @@
     "prepare": "husky",
     "migrations:run": "node src/db/postgres/migrations/exec.js",
     "dev": "node --watch index.js",
-    "test": "jest --passWithNoTests --silent",
-    "test:watch": "jest --watch --passWithNoTests --silent",
-    "test:coverage": "jest --passWithNoTests --silent --coverage"
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent",
+    "test:watch": "dotenv -e .env.test -- jest --passWithNoTests --silent --watch",
+    "test:coverage": "dotenv -e .env.test -- jest --passWithNoTests --silent --coverage"
   },
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.16.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
     "express": "^4.18.3",
     "pg": "^8.11.3",
     "uuid": "^9.0.1",
