@@ -1,6 +1,7 @@
 import { user as userFake } from "../../tests/index.js"
 import { GetUserBalanceRepository } from "./get-user-balance.js"
 import { prisma } from "../../../prisma/prisma.js"
+import { TransactionType } from "@prisma/client"
 
 describe("Get user balance repository", () => {
   test("Should get user balance on data base", async () => {
@@ -61,5 +62,30 @@ describe("Get user balance repository", () => {
     expect(result.totalExpenses.toString()).toBe("2000")
     expect(result.totalInvestments.toString()).toBe("6000")
     expect(result.balance.toString()).toBe("2000")
+  })
+
+  test("Should call Prisma with correct params", async () => {
+    const sut = new GetUserBalanceRepository()
+
+    const executeSpy = jest.spyOn(prisma.transactions, "aggregate")
+
+    await sut.execute(userFake.id)
+
+    expect(executeSpy).toHaveBeenCalledTimes(3)
+
+    expect(executeSpy).toHaveBeenCalledWith({
+      where: { userId: userFake.id, type: TransactionType.expense },
+      _sum: { amount: true },
+    })
+
+    expect(executeSpy).toHaveBeenCalledWith({
+      where: { userId: userFake.id, type: TransactionType.earning },
+      _sum: { amount: true },
+    })
+
+    expect(executeSpy).toHaveBeenCalledWith({
+      where: { userId: userFake.id, type: TransactionType.investment },
+      _sum: { amount: true },
+    })
   })
 })
