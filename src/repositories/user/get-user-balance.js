@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client"
+import { Prisma, TransactionType } from "@prisma/client"
 import { prisma } from "../../../prisma/prisma.js"
 
 export class GetUserBalanceRepository {
@@ -6,21 +6,21 @@ export class GetUserBalanceRepository {
     const {
       _sum: { amount: totalExpenses },
     } = await prisma.transactions.aggregate({
-      where: { userId, type: "expense" },
+      where: { userId, type: TransactionType.expense },
       _sum: { amount: true },
     })
 
     const {
       _sum: { amount: totalEarnings },
     } = await prisma.transactions.aggregate({
-      where: { userId, type: "earning" },
+      where: { userId, type: TransactionType.earning },
       _sum: { amount: true },
     })
 
     const {
       _sum: { amount: totalInvestments },
     } = await prisma.transactions.aggregate({
-      where: { userId, type: "investment" },
+      where: { userId, type: TransactionType.investment },
       _sum: { amount: true },
     })
 
