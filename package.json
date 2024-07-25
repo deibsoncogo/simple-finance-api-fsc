@@ -7,9 +7,9 @@
     "prepare": "husky",
     "migrations:run": "node src/db/postgres/migrations/exec.js",
     "dev": "node --watch index.js",
-    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent",
-    "test:watch": "dotenv -e .env.test -- jest --passWithNoTests --silent --watch",
-    "test:coverage": "dotenv -e .env.test -- jest --passWithNoTests --silent --coverage"
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand",
+    "test:watch": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --watch",
+    "test:coverage": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --coverage"
   },
   "license": "ISC",
   "dependencies": {
