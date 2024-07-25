@@ -3,8 +3,9 @@ import { prisma } from "../../../prisma/prisma.js"
 import { user as userFaker } from "../../tests/index.js"
 import { UpdateUserRepository } from "./update-user.js"
 
-describe("update user repository", () => {
+describe("Update user repository", () => {
   const userNew = {
+    id: faker.string.uuid(),
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     email: faker.internet.email(),
@@ -34,5 +35,15 @@ describe("update user repository", () => {
       where: { id: user.id },
       data: userNew,
     })
+  })
+
+  test("Should throw if Prisma throws", async () => {
+    const sut = new UpdateUserRepository()
+
+    jest.spyOn(prisma.users, "update").mockRejectedValueOnce(new Error())
+
+    const result = sut.execute(userNew)
+
+    await expect(result).rejects.toThrow()
   })
 })

@@ -20,4 +20,14 @@ describe("Create user repository", () => {
 
     expect(executeSpy).toHaveBeenCalledWith({ data: user })
   })
+
+  test("Should throw if Prisma throws", async () => {
+    const sut = new CreateUserRepository()
+
+    jest.spyOn(prisma.users, "create").mockRejectedValueOnce(new Error())
+
+    const result = sut.execute(user)
+
+    await expect(result).rejects.toThrow()
+  })
 })

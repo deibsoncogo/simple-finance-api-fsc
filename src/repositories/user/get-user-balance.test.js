@@ -88,4 +88,16 @@ describe("Get user balance repository", () => {
       _sum: { amount: true },
     })
   })
+
+  test("Should throw if Prisma throws", async () => {
+    const sut = new GetUserBalanceRepository()
+
+    jest
+      .spyOn(prisma.transactions, "aggregate")
+      .mockRejectedValueOnce(new Error())
+
+    const result = sut.execute(userFake.id)
+
+    await expect(result).rejects.toThrow()
+  })
 })
