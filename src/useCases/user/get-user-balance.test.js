@@ -1,4 +1,4 @@
-import { UserNotFoundError } from "../../errors/user.js"
+import { UserNotFoundError } from "../../errors/index.js"
 import { balance, user } from "../../tests/index.js"
 import { GetUserBalanceUseCase } from "./get-user-balance.js"
 

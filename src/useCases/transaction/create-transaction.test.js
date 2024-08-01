@@ -1,5 +1,5 @@
-import { CreateTransactionUseCase } from "./create-transaction"
-import { UserNotFoundError } from "../../errors/user"
+import { CreateTransactionUseCase } from "./create-transaction.js"
+import { UserNotFoundError } from "../../errors/index.js"
 import { user, transactionPartial as transaction } from "../../tests/index.js"
 
 describe("Create transaction use case", () => {

@@ -1,6 +1,6 @@
-import { UserNotFoundError } from "../../errors/user"
+import { UserNotFoundError } from "../../errors/index.js"
 import { user } from "../../tests/index.js"
-import { GetTransactionsByUserIdUseCase } from "./get-transactions-by-user-id"
+import { GetTransactionsByUserIdUseCase } from "./get-transactions-by-user-id.js"
 
 describe("Get transactions by userId use case", () => {
   class GetUserByIdRepositoryStub {

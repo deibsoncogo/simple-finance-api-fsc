@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker"
-import { EmailAlreadyInUseError } from "../../errors/user"
+import { EmailAlreadyInUseError } from "../../errors/index.js"
 import { user } from "../../tests/index.js"
-import { UpdateUserUseCase } from "./update-user"
+import { UpdateUserUseCase } from "./update-user.js"
 
 describe("Update user use case", () => {
   class UpdateUserRepositoryStub {

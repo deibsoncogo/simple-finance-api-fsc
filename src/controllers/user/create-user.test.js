@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker"
-import { EmailAlreadyInUseError } from "../../errors/user.js"
+import { EmailAlreadyInUseError } from "../../errors/index.js"
 import { userPartial } from "../../tests/index.js"
 import { CreateUserController } from "./create-user.js"
 

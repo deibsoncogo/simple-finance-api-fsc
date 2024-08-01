@@ -1,6 +1,6 @@
 import { transaction } from "../../tests/index.js"
 import { GetTransactionsByUserIdController } from "./get-transactions-by-user-id.js"
-import { UserNotFoundError } from "../../errors/user.js"
+import { UserNotFoundError } from "../../errors/index.js"
 
 describe("Get transaction by user id controller", () => {
   const httpRequest = {

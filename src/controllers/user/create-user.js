@@ -1,5 +1,5 @@
 import { ZodError } from "zod"
-import { EmailAlreadyInUseError } from "../../errors/user.js"
+import { EmailAlreadyInUseError } from "../../errors/index.js"
 import { createUserSchema } from "../../schemas/index.js"
 import { badRequest, created, serverError } from "../helpers/index.js"
 

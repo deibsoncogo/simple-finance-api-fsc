@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker"
-import { UserNotFoundError } from "../../errors/user.js"
+import { UserNotFoundError } from "../../errors/index.js"
 import { user } from "../../tests/index.js"
 import { GetUserBalanceController } from "./get-user-balance.js"
 

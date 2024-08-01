@@ -1,6 +1,6 @@
-import { EmailAlreadyInUseError } from "../../errors/user"
+import { EmailAlreadyInUseError } from "../../errors/index.js"
 import { userPartial as user } from "../../tests/index.js"
-import { CreateUserUseCase } from "./create-user"
+import { CreateUserUseCase } from "./create-user.js"
 
 describe("Create user use case", () => {
   class CreateUserRepositoryStub {
