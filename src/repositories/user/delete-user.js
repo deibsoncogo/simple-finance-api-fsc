@@ -1,3 +1,5 @@
+import { UserNotFoundError } from "../../errors/index.js"
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 import { prisma } from "../../../prisma/prisma.js"
 
 export class DeleteUserRepository {
@@ -9,7 +11,13 @@ export class DeleteUserRepository {
 
       return user
     } catch (error) {
-      return null
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === "P2025") {
+          throw new UserNotFoundError(id)
+        }
+      }
+
+      throw error
     }
   }
 }
