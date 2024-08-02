@@ -1,3 +1,4 @@
+import { UserNotFoundError } from "../../errors/user.js"
 import { user } from "../../tests/index.js"
 import { DeleteUserController } from "./delete-user.js"
 
@@ -40,7 +41,9 @@ describe("Delete user controller", () => {
   test("Should return 404 if user is not found", async () => {
     const { deleteUserUseCaseStub, deleteUserController } = makeSut()
 
-    jest.spyOn(deleteUserUseCaseStub, "execute").mockResolvedValueOnce(null)
+    jest
+      .spyOn(deleteUserUseCaseStub, "execute")
+      .mockRejectedValueOnce(new UserNotFoundError())
 
     const result = await deleteUserController.handle(httpRequest)
 

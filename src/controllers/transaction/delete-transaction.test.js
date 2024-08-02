@@ -1,3 +1,4 @@
+import { TransactionNotFoundError } from "../../errors/transaction.js"
 import { transaction } from "../../tests/index.js"
 import { DeleteTransactionController } from "./delete-transaction.js"
 
@@ -49,7 +50,7 @@ describe("Delete transaction controller", () => {
 
     jest
       .spyOn(deleteTransactionUseCaseStub, "execute")
-      .mockResolvedValueOnce(null)
+      .mockRejectedValueOnce(new TransactionNotFoundError())
 
     const result = await deleteTransactionController.handle(httpRequest)
 

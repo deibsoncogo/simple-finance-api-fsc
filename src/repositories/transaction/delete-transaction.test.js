@@ -4,6 +4,8 @@ import {
 } from "../../tests/index.js"
 import { DeleteTransactionRepository } from "./delete-transaction.js"
 import { prisma } from "../../../prisma/prisma.js"
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
+import { TransactionNotFoundError } from "../../errors/transaction.js"
 
 describe("Delete transaction repository", () => {
   test("Should delete a transaction on data base", async () => {
@@ -21,6 +23,12 @@ describe("Delete transaction repository", () => {
   })
 
   test("Should call Prisma with correct params", async () => {
+    await prisma.users.create({ data: userData })
+
+    await prisma.transactions.create({
+      data: { ...transactionData, userId: userData.id },
+    })
+
     const sut = new DeleteTransactionRepository()
 
     const executeSpy = jest.spyOn(prisma.transactions, "delete")
@@ -30,5 +38,31 @@ describe("Delete transaction repository", () => {
     expect(executeSpy).toHaveBeenCalledWith({
       where: { id: transactionData.id },
     })
+  })
+
+  test("Should throw generic error if Prisma throws generic error", async () => {
+    const sut = new DeleteTransactionRepository()
+
+    jest.spyOn(prisma.transactions, "delete").mockRejectedValueOnce(new Error())
+
+    const result = sut.execute(transactionData.id)
+
+    await expect(result).rejects.toThrow()
+  })
+
+  test("Should throw generic error if Prisma throws generic error", async () => {
+    const sut = new DeleteTransactionRepository()
+
+    jest
+      .spyOn(prisma.transactions, "delete")
+      .mockRejectedValueOnce(
+        new PrismaClientKnownRequestError("", { code: "P2025" }),
+      )
+
+    const result = sut.execute(transactionData.id)
+
+    await expect(result).rejects.toThrow(
+      new TransactionNotFoundError(transactionData.id),
+    )
   })
 })
