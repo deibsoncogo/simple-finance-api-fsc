@@ -1,96 +1,13 @@
 import "dotenv/config.js"
 import express from "express"
-import {
-  makeCreateUserController,
-  makeDeleteUserController,
-  makeGetUserBalanceController,
-  makeGetUserByIdController,
-  makeUpdateUserController,
-} from "./src/factories/controllers/user.js"
-import {
-  makeCreateTransactionController,
-  makeDeleteTransactionController,
-  makeGetTransactionsByUserIdController,
-  makeUpdateTransactionController,
-} from "./src/factories/controllers/transaction.js"
+import { transactionsRouter, usersRouter } from "./src/routes/index.js"
 
 const app = express()
 
 app.use(express.json())
 
-app.post("/api/users", async (request, response) => {
-  const createUserController = makeCreateUserController()
-
-  const { statusCode, body } = await createUserController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
-app.get("/api/users/:userId", async (request, response) => {
-  const getUserByIdController = makeGetUserByIdController()
-
-  const { statusCode, body } = await getUserByIdController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
-app.get("/api/users/:userId/balance", async (request, response) => {
-  const getUserBalanceController = makeGetUserBalanceController()
-
-  const { statusCode, body } = await getUserBalanceController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
-app.patch("/api/users/:userId", async (request, response) => {
-  const updateUserController = makeUpdateUserController()
-
-  const { statusCode, body } = await updateUserController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
-app.delete("/api/users/:userId", async (request, response) => {
-  const deleteUserController = makeDeleteUserController()
-
-  const { statusCode, body } = await deleteUserController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
-app.post("/api/transactions", async (request, response) => {
-  const createTransactionController = makeCreateTransactionController()
-
-  const { statusCode, body } = await createTransactionController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
-app.get("/api/transactions", async (request, response) => {
-  const getTransactionsByUserIdController =
-    makeGetTransactionsByUserIdController()
-
-  const { statusCode, body } =
-    await getTransactionsByUserIdController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
-app.patch("/api/transactions/:transactionId", async (request, response) => {
-  const updateTransactionController = makeUpdateTransactionController()
-
-  const { statusCode, body } = await updateTransactionController.handle(request)
-
-  response.status(statusCode).send(body)
-})
-
-app.delete("/api/transactions/:transactionId", async (request, response) => {
-  const deleteTransactionController = makeDeleteTransactionController()
-
-  const { statusCode, body } = await deleteTransactionController.handle(request)
-
-  response.status(statusCode).send(body)
-})
+app.use("/api/users", usersRouter)
+app.use("/api/transactions", transactionsRouter)
 
 app.listen(process.env.PORT, () =>
   console.log(`Listening on port ${process.env.PORT}`),
