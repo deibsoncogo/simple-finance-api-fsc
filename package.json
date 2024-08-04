@@ -7,9 +7,9 @@
     "prepare": "husky",
     "migrations:run": "node src/db/postgres/migrations/exec.js",
     "dev": "node --watch index.js",
-    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand",
-    "test:watch": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --watch",
-    "test:coverage": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --coverage"
+    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --detectOpenHandles --forceExit",
+    "test:watch": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand  --detectOpenHandles --forceExit --watch",
+    "test:coverage": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand  --detectOpenHandles --forceExit --coverage"
   },
   "license": "ISC",
   "dependencies": {
@@ -36,6 +36,7 @@
     "jest": "^29.7.0",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-    "prisma": "^5.16.0"
+    "prisma": "^5.16.0",
+    "supertest": "^7.0.0"
   }
 }
