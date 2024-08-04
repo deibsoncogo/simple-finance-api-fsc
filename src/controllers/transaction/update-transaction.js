@@ -1,4 +1,5 @@
 import { ZodError } from "zod"
+import { TransactionNotFoundError } from "../../errors/transaction.js"
 import { updateTransactionSchema } from "../../schemas/index.js"
 import {
   badRequest,
@@ -6,6 +7,7 @@ import {
   invalidIdResponse,
   ok,
   serverError,
+  transactionNotFoundResponse,
 } from "../helpers/index.js"
 
 export class UpdateTransactionController {
@@ -37,6 +39,10 @@ export class UpdateTransactionController {
 
       if (error instanceof ZodError) {
         return badRequest({ message: error.errors[0].message })
+      }
+
+      if (error instanceof TransactionNotFoundError) {
+        return transactionNotFoundResponse()
       }
 
       return serverError()
