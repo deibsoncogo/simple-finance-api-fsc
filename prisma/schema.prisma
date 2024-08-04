@@ -26,7 +26,7 @@ model Transactions {
 
   type TransactionType
 
-  user Users @relation(fields: [userId], references: [id])
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum TransactionType {
