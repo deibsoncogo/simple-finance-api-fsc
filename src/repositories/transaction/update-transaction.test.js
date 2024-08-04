@@ -1,8 +1,10 @@
 import { faker } from "@faker-js/faker"
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 import { prisma } from "../../../prisma/prisma.js"
+import { TransactionNotFoundError } from "../../errors/transaction.js"
 import {
-  user as userData,
   transaction as transactionData,
+  user as userData,
 } from "../../tests/index.js"
 import { UpdateTransactionRepository } from "./update-transaction.js"
 
@@ -57,5 +59,21 @@ describe("Update transaction repository", () => {
     const result = sut.execute(transactionData.id, transactionNew)
 
     await expect(result).rejects.toThrow()
+  })
+
+  test("Should throw TransactionNotFoundError if Prisma does not find record to update", async () => {
+    const sut = new UpdateTransactionRepository()
+
+    jest
+      .spyOn(prisma.transactions, "update")
+      .mockRejectedValueOnce(
+        new PrismaClientKnownRequestError("", { code: "P2025" }),
+      )
+
+    const result = sut.execute(transactionData.id)
+
+    await expect(result).rejects.toThrow(
+      new TransactionNotFoundError(transactionData.id),
+    )
   })
 })

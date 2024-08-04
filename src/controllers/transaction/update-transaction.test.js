@@ -1,3 +1,4 @@
+import { TransactionNotFoundError } from "../../errors/transaction.js"
 import { transactionPartial, transaction } from "../../tests/index.js"
 import { UpdateTransactionController } from "./update-transaction.js"
 
@@ -96,6 +97,19 @@ describe("Update transaction controller", () => {
     const result = await updateTransactionController.handle(httpRequest)
 
     expect(result.statusCode).toBe(500)
+  })
+
+  test("Should return 404 when TransactionNotFoundError is thrown", async () => {
+    const { updateTransactionUseCaseStub, updateTransactionController } =
+      makeSut()
+
+    jest
+      .spyOn(updateTransactionUseCaseStub, "execute")
+      .mockRejectedValueOnce(new TransactionNotFoundError())
+
+    const result = await updateTransactionController.handle(httpRequest)
+
+    expect(result.statusCode).toBe(404)
   })
 
   test("Should call updateTransactionUseCaseStub with correct params", async () => {

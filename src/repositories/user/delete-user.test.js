@@ -37,7 +37,7 @@ describe("Delete user repository", () => {
     await expect(result).rejects.toThrow()
   })
 
-  test("Should throw generic error if Prisma throws generic error", async () => {
+  test("Should throw UserNotFoundError if Prisma does not find record to delete", async () => {
     const sut = new DeleteUserRepository()
 
     jest

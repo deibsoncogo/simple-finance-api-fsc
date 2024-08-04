@@ -2,6 +2,8 @@ import { faker } from "@faker-js/faker"
 import { prisma } from "../../../prisma/prisma.js"
 import { user as userFaker } from "../../tests/index.js"
 import { UpdateUserRepository } from "./update-user.js"
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
+import { UserNotFoundError } from "../../errors/user.js"
 
 describe("Update user repository", () => {
   const userNew = {
@@ -22,7 +24,7 @@ describe("Update user repository", () => {
     expect(result).toStrictEqual({ id: user.id, ...userNew })
   })
 
-  it("should call Prisma with correct params", async () => {
+  test("should call Prisma with correct params", async () => {
     const user = await prisma.users.create({ data: userFaker })
 
     const sut = new UpdateUserRepository()
@@ -45,5 +47,19 @@ describe("Update user repository", () => {
     const result = sut.execute(userNew)
 
     await expect(result).rejects.toThrow()
+  })
+
+  test("Should throw UserNotFoundError if Prisma does not find record to update", async () => {
+    const sut = new UpdateUserRepository()
+
+    jest
+      .spyOn(prisma.users, "update")
+      .mockRejectedValueOnce(
+        new PrismaClientKnownRequestError("", { code: "P2025" }),
+      )
+
+    const result = sut.execute(userNew.id)
+
+    await expect(result).rejects.toThrow(new UserNotFoundError(userNew.id))
   })
 })
