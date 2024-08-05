@@ -1,0 +1,8 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Simple Finance API",
+    "description": "API for Simple Finance that allows users to manage their finances",
+    "version": "1.0.0"
+  }
+}
