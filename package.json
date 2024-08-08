@@ -4,6 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "eslint:check": "eslint src --ext .js",
+    "prettier:check": "prettier --check src",
     "prepare": "husky",
     "dev": "node --watch index.js",
     "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --detectOpenHandles --forceExit",
