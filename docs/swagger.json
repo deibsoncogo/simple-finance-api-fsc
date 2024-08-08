@@ -191,6 +191,166 @@
           }
         }
       }
+    },
+    "/api/transactions": {
+      "post": {
+        "summary": "Create a new transaction",
+        "tags": ["Transaction"],
+        "parameters": [
+          {
+            "name": "body",
+            "required": true,
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/CreateTransactionParams"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Transaction created successfully",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            }
+          },
+          "400": {
+            "description": "Invalid params",
+            "schema": {
+              "$ref": "#/definitions/InvalidParamsErrorResponse"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get transactions by user ID",
+        "tags": ["Transaction"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "userId",
+            "required": true,
+            "type": "string",
+            "description": "ID of the user to get transactions"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions found",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Transaction"
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/UserNotFoundErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/transactions/{transactionId}": {
+      "patch": {
+        "summary": "Update transaction by ID",
+        "tags": ["Transaction"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transactionId",
+            "required": true,
+            "type": "string",
+            "description": "ID of the transaction to update"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTransactionParams"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction updated successfully",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            }
+          },
+          "400": {
+            "description": "Invalid params",
+            "schema": {
+              "$ref": "#/definitions/InvalidParamsErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "schema": {
+              "$ref": "#/definitions/TransactionNotFoundErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete transaction by ID",
+        "tags": ["Transaction"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "transactionId",
+            "required": true,
+            "type": "string",
+            "description": "ID of the transaction to delete"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction delete successfully",
+            "schema": {
+              "$ref": "#/definitions/Transaction"
+            }
+          },
+          "404": {
+            "description": "Transaction not found",
+            "schema": {
+              "$ref": "#/definitions/TransactionNotFoundErrorResponse"
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "schema": {
+              "$ref": "#/definitions/InternalServerErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -282,12 +442,81 @@
         }
       }
     },
-    "InvalidParamsErrorResponse": {
+    "Transaction": {
       "type": "object",
       "properties": {
-        "message": {
+        "id": {
           "type": "string",
-          "example": "Invalid params"
+          "example": "47cebae1-4b80-44e8-ad51-8ef6bc69f117"
+        },
+        "name": {
+          "type": "string",
+          "example": "Salary"
+        },
+        "date": {
+          "type": "string",
+          "example": "2024-08-07T20:08:55.000Z"
+        },
+        "amount": {
+          "type": "number",
+          "example": 1000
+        },
+        "userId": {
+          "type": "string",
+          "example": "03d39629-515b-4087-b757-98bd53de329a"
+        },
+        "type": {
+          "type": "string",
+          "example": "earning",
+          "description": "Types valid is earning, expense and investment"
+        }
+      }
+    },
+    "CreateTransactionParams": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Salary"
+        },
+        "date": {
+          "type": "string",
+          "example": "2024-08-07T20:08:55.000Z"
+        },
+        "amount": {
+          "type": "number",
+          "example": 1000
+        },
+        "userId": {
+          "type": "string",
+          "example": "03d39629-515b-4087-b757-98bd53de329a"
+        },
+        "type": {
+          "type": "string",
+          "example": "earning",
+          "description": "Types valid is earning, expense and investment"
+        }
+      }
+    },
+    "UpdateTransactionParams": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Salary and overtime"
+        },
+        "date": {
+          "type": "string",
+          "example": "2024-08-01T10:30:20.000Z"
+        },
+        "amount": {
+          "type": "number",
+          "example": 1500
+        },
+        "type": {
+          "type": "string",
+          "example": "earning",
+          "description": "Types valid is earning, expense and investment"
         }
       }
     },
@@ -297,6 +526,24 @@
         "message": {
           "type": "string",
           "example": "User not found"
+        }
+      }
+    },
+    "TransactionNotFoundErrorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Transaction not found"
+        }
+      }
+    },
+    "InvalidParamsErrorResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Invalid params"
         }
       }
     },
