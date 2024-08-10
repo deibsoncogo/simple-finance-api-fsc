@@ -8,9 +8,9 @@
     "prettier:check": "prettier --check src",
     "prepare": "husky",
     "dev": "node --watch index.js",
-    "test": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand --detectOpenHandles --forceExit",
-    "test:watch": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand  --detectOpenHandles --forceExit --watch",
-    "test:coverage": "dotenv -e .env.test -- jest --passWithNoTests --silent --runInBand  --detectOpenHandles --forceExit --coverage"
+    "test": "dotenv -e .env.test -- node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests --silent --runInBand --detectOpenHandles --forceExit",
+    "test:watch": "npm run test -- --watch",
+    "test:coverage": "npm run test -- --coverage"
   },
   "license": "ISC",
   "dependencies": {
