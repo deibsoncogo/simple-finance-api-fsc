@@ -31,7 +31,7 @@ describe("Delete transaction repository", () => {
 
     const sut = new DeleteTransactionRepository()
 
-    const executeSpy = jest.spyOn(prisma.transactions, "delete")
+    const executeSpy = import.meta.jest.spyOn(prisma.transactions, "delete")
 
     await sut.execute(transactionData.id)
 
@@ -43,7 +43,9 @@ describe("Delete transaction repository", () => {
   test("Should throw generic error if Prisma throws generic error", async () => {
     const sut = new DeleteTransactionRepository()
 
-    jest.spyOn(prisma.transactions, "delete").mockRejectedValueOnce(new Error())
+    import.meta.jest
+      .spyOn(prisma.transactions, "delete")
+      .mockRejectedValueOnce(new Error())
 
     const result = sut.execute(transactionData.id)
 
@@ -53,7 +55,7 @@ describe("Delete transaction repository", () => {
   test("Should throw generic error if Prisma throws generic error", async () => {
     const sut = new DeleteTransactionRepository()
 
-    jest
+    import.meta.jest
       .spyOn(prisma.transactions, "delete")
       .mockRejectedValueOnce(
         new PrismaClientKnownRequestError("", { code: "P2025" }),

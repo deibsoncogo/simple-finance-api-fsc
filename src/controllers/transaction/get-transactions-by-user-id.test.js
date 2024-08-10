@@ -63,7 +63,7 @@ describe("Get transaction by user id controller", () => {
       getTransactionsByUserIdController,
     } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(getTransactionsByUserIdUseCaseStub, "execute")
       .mockRejectedValueOnce(new UserNotFoundError())
 
@@ -78,7 +78,7 @@ describe("Get transaction by user id controller", () => {
       getTransactionsByUserIdController,
     } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(getTransactionsByUserIdUseCaseStub, "execute")
       .mockRejectedValueOnce(new Error())
 
@@ -93,7 +93,10 @@ describe("Get transaction by user id controller", () => {
       getTransactionsByUserIdController,
     } = makeSut()
 
-    const executeSpy = jest.spyOn(getTransactionsByUserIdUseCaseStub, "execute")
+    const executeSpy = import.meta.jest.spyOn(
+      getTransactionsByUserIdUseCaseStub,
+      "execute",
+    )
 
     await getTransactionsByUserIdController.handle(httpRequest)
 

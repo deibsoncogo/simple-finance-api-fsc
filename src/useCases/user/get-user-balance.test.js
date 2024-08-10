@@ -42,7 +42,9 @@ describe("Get user balance use case", () => {
   test("Should throw UserNotFoundError if GetUserByIdRepositoryStub returns null", async () => {
     const { getUserBalanceUseCase, getUserByIdRepositoryStub } = makeSut()
 
-    jest.spyOn(getUserByIdRepositoryStub, "execute").mockResolvedValueOnce(null)
+    import.meta.jest
+      .spyOn(getUserByIdRepositoryStub, "execute")
+      .mockResolvedValueOnce(null)
 
     const result = getUserBalanceUseCase.execute(user.id)
 
@@ -52,7 +54,10 @@ describe("Get user balance use case", () => {
   test("Should call GetUserByIdRepositoryStub with correct params", async () => {
     const { getUserBalanceUseCase, getUserByIdRepositoryStub } = makeSut()
 
-    const executeSpy = jest.spyOn(getUserByIdRepositoryStub, "execute")
+    const executeSpy = import.meta.jest.spyOn(
+      getUserByIdRepositoryStub,
+      "execute",
+    )
 
     await getUserBalanceUseCase.execute(user.id)
 
@@ -62,7 +67,10 @@ describe("Get user balance use case", () => {
   test("Should call GetUserBalanceRepositoryStub with correct params", async () => {
     const { getUserBalanceUseCase, getUserBalanceRepositoryStub } = makeSut()
 
-    const executeSpy = jest.spyOn(getUserBalanceRepositoryStub, "execute")
+    const executeSpy = import.meta.jest.spyOn(
+      getUserBalanceRepositoryStub,
+      "execute",
+    )
 
     await getUserBalanceUseCase.execute(user.id)
 
@@ -72,7 +80,7 @@ describe("Get user balance use case", () => {
   test("Should throw if GetUserByIdRepositoryStub throws", async () => {
     const { getUserBalanceUseCase, getUserByIdRepositoryStub } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(getUserByIdRepositoryStub, "execute")
       .mockRejectedValueOnce(new Error())
 
@@ -84,7 +92,7 @@ describe("Get user balance use case", () => {
   test("Should throw if GetUserBalanceRepositoryStub throws", async () => {
     const { getUserBalanceUseCase, getUserBalanceRepositoryStub } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(getUserBalanceRepositoryStub, "execute")
       .mockRejectedValueOnce(new Error())
 

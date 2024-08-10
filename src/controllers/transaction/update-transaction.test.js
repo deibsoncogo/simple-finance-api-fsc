@@ -90,7 +90,7 @@ describe("Update transaction controller", () => {
     const { updateTransactionUseCaseStub, updateTransactionController } =
       makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(updateTransactionUseCaseStub, "execute")
       .mockRejectedValueOnce(new Error())
 
@@ -103,7 +103,7 @@ describe("Update transaction controller", () => {
     const { updateTransactionUseCaseStub, updateTransactionController } =
       makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(updateTransactionUseCaseStub, "execute")
       .mockRejectedValueOnce(new TransactionNotFoundError())
 
@@ -116,7 +116,10 @@ describe("Update transaction controller", () => {
     const { updateTransactionUseCaseStub, updateTransactionController } =
       makeSut()
 
-    const executeSpy = jest.spyOn(updateTransactionUseCaseStub, "execute")
+    const executeSpy = import.meta.jest.spyOn(
+      updateTransactionUseCaseStub,
+      "execute",
+    )
 
     await updateTransactionController.handle(httpRequest)
 

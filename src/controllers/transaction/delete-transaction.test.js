@@ -48,7 +48,7 @@ describe("Delete transaction controller", () => {
     const { deleteTransactionUseCaseStub, deleteTransactionController } =
       makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(deleteTransactionUseCaseStub, "execute")
       .mockRejectedValueOnce(new TransactionNotFoundError())
 
@@ -61,7 +61,7 @@ describe("Delete transaction controller", () => {
     const { deleteTransactionUseCaseStub, deleteTransactionController } =
       makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(deleteTransactionUseCaseStub, "execute")
       .mockRejectedValueOnce(new Error())
 
@@ -74,7 +74,10 @@ describe("Delete transaction controller", () => {
     const { deleteTransactionUseCaseStub, deleteTransactionController } =
       makeSut()
 
-    const executeSpy = jest.spyOn(deleteTransactionUseCaseStub, "execute")
+    const executeSpy = import.meta.jest.spyOn(
+      deleteTransactionUseCaseStub,
+      "execute",
+    )
 
     await deleteTransactionController.handle(httpRequest)
 

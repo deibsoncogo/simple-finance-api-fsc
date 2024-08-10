@@ -91,7 +91,7 @@ describe("Update user controller", () => {
   test("Should return 500 if UpdateUserUseCaseStub throws with generic error", async () => {
     const { updateUserUseCaseStub, updateUserController } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(updateUserUseCaseStub, "execute")
       .mockRejectedValueOnce(new Error())
 
@@ -103,7 +103,7 @@ describe("Update user controller", () => {
   test("Should return 400 if UpdateUserUseCaseStub throws EmailAlreadyInUseError", async () => {
     const { updateUserUseCaseStub, updateUserController } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(updateUserUseCaseStub, "execute")
       .mockRejectedValueOnce(new EmailAlreadyInUseError(faker.internet.email()))
 
@@ -115,7 +115,7 @@ describe("Update user controller", () => {
   test("Should return 404 when UserNotFoundError is thrown", async () => {
     const { updateUserUseCaseStub, updateUserController } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(updateUserUseCaseStub, "execute")
       .mockRejectedValueOnce(new UserNotFoundError(faker.string.uuid()))
 
@@ -127,7 +127,7 @@ describe("Update user controller", () => {
   test("Should call updateUserUseCaseStub with correct params", async () => {
     const { updateUserUseCaseStub, updateUserController } = makeSut()
 
-    const executeSpy = jest.spyOn(updateUserUseCaseStub, "execute")
+    const executeSpy = import.meta.jest.spyOn(updateUserUseCaseStub, "execute")
 
     await updateUserController.handle(httpRequest)
 

@@ -96,7 +96,7 @@ describe("Create user controller", () => {
   test("Should call createUserUseCaseStub with correct params", async () => {
     const { createUserController, createUserUseCaseStub } = makeSut()
 
-    const executeSpy = jest.spyOn(createUserUseCaseStub, "execute")
+    const executeSpy = import.meta.jest.spyOn(createUserUseCaseStub, "execute")
 
     await createUserController.handle(httpRequest)
 
@@ -106,7 +106,7 @@ describe("Create user controller", () => {
   test("Should return 500 if createUserUseCaseStub throws", async () => {
     const { createUserController, createUserUseCaseStub } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(createUserUseCaseStub, "execute")
       .mockRejectedValueOnce(new Error())
 
@@ -118,7 +118,7 @@ describe("Create user controller", () => {
   test("Should return 500 if createUserUseCaseStub throws emailAlreadyInUseError", async () => {
     const { createUserController, createUserUseCaseStub } = makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(createUserUseCaseStub, "execute")
       .mockRejectedValueOnce(new EmailAlreadyInUseError(httpRequest.body.email))
 

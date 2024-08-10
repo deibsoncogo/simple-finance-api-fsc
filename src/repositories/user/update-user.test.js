@@ -29,7 +29,7 @@ describe("Update user repository", () => {
 
     const sut = new UpdateUserRepository()
 
-    const prismaSpy = jest.spyOn(prisma.users, "update")
+    const prismaSpy = import.meta.jest.spyOn(prisma.users, "update")
 
     await sut.execute(user.id, userNew)
 
@@ -42,7 +42,9 @@ describe("Update user repository", () => {
   test("Should throw if Prisma throws", async () => {
     const sut = new UpdateUserRepository()
 
-    jest.spyOn(prisma.users, "update").mockRejectedValueOnce(new Error())
+    import.meta.jest
+      .spyOn(prisma.users, "update")
+      .mockRejectedValueOnce(new Error())
 
     const result = sut.execute(userNew)
 
@@ -52,7 +54,7 @@ describe("Update user repository", () => {
   test("Should throw UserNotFoundError if Prisma does not find record to update", async () => {
     const sut = new UpdateUserRepository()
 
-    jest
+    import.meta.jest
       .spyOn(prisma.users, "update")
       .mockRejectedValueOnce(
         new PrismaClientKnownRequestError("", { code: "P2025" }),

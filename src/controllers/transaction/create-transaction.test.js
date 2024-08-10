@@ -133,7 +133,7 @@ describe("Create transaction controller", () => {
     const { createTransactionUseCaseStub, createTransactionController } =
       makeSut()
 
-    jest
+    import.meta.jest
       .spyOn(createTransactionUseCaseStub, "execute")
       .mockRejectedValueOnce(new Error())
 
@@ -146,7 +146,10 @@ describe("Create transaction controller", () => {
     const { createTransactionUseCaseStub, createTransactionController } =
       makeSut()
 
-    const executeSpy = jest.spyOn(createTransactionUseCaseStub, "execute")
+    const executeSpy = import.meta.jest.spyOn(
+      createTransactionUseCaseStub,
+      "execute",
+    )
 
     await createTransactionController.handle(httpRequest)
 

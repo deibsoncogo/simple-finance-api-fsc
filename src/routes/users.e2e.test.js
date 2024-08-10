@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker"
 import { TransactionType } from "@prisma/client"
 import supertest from "supertest"
-import { app } from "../app.cjs"
+import { app } from "../app.js"
 import { transactionPartial, userPartial } from "../tests/index.js"
 
 describe("Users router E2E", () => {

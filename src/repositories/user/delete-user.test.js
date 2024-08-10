@@ -20,7 +20,7 @@ describe("Delete user repository", () => {
 
     const sut = new DeleteUserRepository()
 
-    const executeSpy = jest.spyOn(prisma.users, "delete")
+    const executeSpy = import.meta.jest.spyOn(prisma.users, "delete")
 
     await sut.execute(user.id)
 
@@ -30,7 +30,9 @@ describe("Delete user repository", () => {
   test("Should throw generic error if Prisma throws generic error", async () => {
     const sut = new DeleteUserRepository()
 
-    jest.spyOn(prisma.transactions, "delete").mockRejectedValueOnce(new Error())
+    import.meta.jest
+      .spyOn(prisma.transactions, "delete")
+      .mockRejectedValueOnce(new Error())
 
     const result = sut.execute(user.id)
 
@@ -40,7 +42,7 @@ describe("Delete user repository", () => {
   test("Should throw UserNotFoundError if Prisma does not find record to delete", async () => {
     const sut = new DeleteUserRepository()
 
-    jest
+    import.meta.jest
       .spyOn(prisma.transactions, "delete")
       .mockRejectedValueOnce(
         new PrismaClientKnownRequestError("", { code: "P2025" }),

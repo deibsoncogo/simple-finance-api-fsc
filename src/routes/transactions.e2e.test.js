@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker"
 import supertest from "supertest"
-import { app } from "../app.cjs"
 import { transactionPartial, userPartial } from "../tests/index.js"
+import { app } from "../app.js"
 
 describe("Transactions router E2E", () => {
   test("POST /api/transactions should return 201 when transaction is created", async () => {
