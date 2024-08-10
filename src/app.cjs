@@ -1,9 +1,8 @@
-import fs from "node:fs"
-import path from "node:path"
-import swagger from "swagger-ui-express"
-import { transactionsRouter, usersRouter } from "./routes/index.js"
-
+const fs = require("node:fs")
+const path = require("node:path")
 const express = require("express")
+const swagger = require("swagger-ui-express")
+const { usersRouter, transactionsRouter } = require("./routes/index.js")
 
 const app = express()
 
